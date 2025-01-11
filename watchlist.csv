@@ -1,6 +1,9 @@
 symbol,target_price,condition
-mara,18,buy
+mara,15,buy
 coin,225,buy
 mstr,400,sell
 tsla,250,buy
 gdx,34,buy
+gdxj,41,buy
+crsp,30,buy
+intc,16,buy
