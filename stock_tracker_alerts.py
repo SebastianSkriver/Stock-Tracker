@@ -47,11 +47,3 @@ def check_stocks():
             body = f"The current price of {symbol} is {current_price}, which is at or above your target price of {target_price}."
             send_email(subject, body, "bomskriver@gmail.com")  # Replace with recipient email
 
-# Schedule the script to run every hour
-schedule.every(4).hour.do(check_stocks)
-
-print("Stock tracker is running...")
-while True:
-    schedule.run_pending()
-    time.sleep(1)
-
