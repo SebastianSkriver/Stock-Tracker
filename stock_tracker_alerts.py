@@ -56,7 +56,7 @@ def check_stocks():
             elif condition == "sell" and current_price >= target_price:
                 subject = f"Stock Alert: {symbol} is at or above your sell target!"
                 body = f"The current price of {symbol} is {current_price}, which is at or above your target price of {target_price}."
-                send_email(subject, body, "bomskriver@gmail.com")  # Replace with recipient email
+                send_email(subject, body, "stock.tracker.python@gmail.com")  # Replace with recipient email
 
         except Exception as e:
             print(f"Error processing stock {symbol}: {e}")
