@@ -2,27 +2,30 @@ name: Run Stock Tracker
 
 on:
   schedule:
-    # Schedule to run at 8:00 AM and 8:00 PM every day
-    - cron: "0 12,20 * * *"
-  workflow_dispatch:  # Add this line to enable manual triggering
+    # Schedule to run at 12:00 PM and 8:00 PM UTC every day
+    - cron: "0 11,23 * * *"
+  workflow_dispatch:  # Enable manual triggering
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Print current time
+        run: date  # Prints the current time in the logs
 
-    - name: Run script
-      run: python stock_tracker_alerts.py
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run script
+        run: python stock_tracker_alerts.py
