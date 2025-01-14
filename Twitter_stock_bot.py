@@ -1,25 +1,10 @@
-import tweepy
+import requests
 import yfinance as yf
 import pandas as pd
 import os
 
 # Twitter API credentials from environment variables
-TWITTER_API_KEY = os.getenv("TWITTER_API")
-TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
-TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS")
-TWITTER_ACCESS_SECRET = os.getenv("TWITTER_ACCESS_SECRET")
-
-# Authenticate with Twitter API
-def authenticate_twitter():
-    try:
-        auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET)
-        auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-        api = tweepy.API(auth)
-        print("Twitter authentication successful.")
-        return api
-    except Exception as e:
-        print(f"Error authenticating with Twitter: {e}")
-        return None
+TWITTER_BEARER = os.getenv("TWITTER_BEARER")
 
 # Fetch stock prices
 def fetch_stock_price(stock_symbol):
@@ -63,9 +48,16 @@ def generate_tweet_content(csv_file):
         print(f"Error generating tweet content: {e}")
     return tweet_lines
 
-# Post to Twitter
-def post_to_twitter(api, tweet_lines):
+# Post to Twitter using API v2
+def post_to_twitter_v2(tweet_lines):
     try:
+        # Twitter API v2 endpoint
+        url = "https://api.twitter.com/2/tweets"
+        headers = {
+            "Authorization": f"Bearer {TWITTER_BEARER}",
+            "Content-Type": "application/json"
+        }
+
         # Combine all lines into a single tweet (Twitter's character limit is 280)
         tweet_content = "\n".join(tweet_lines)
         if len(tweet_content) > 280:
@@ -73,30 +65,32 @@ def post_to_twitter(api, tweet_lines):
             # Split into multiple tweets if necessary
             for i in range(0, len(tweet_lines), 5):  # Post 5 lines per tweet
                 chunk = "\n".join(tweet_lines[i:i+5])
-                api.update_status(chunk)
-                print(f"Tweeted:\n{chunk}")
+                payload = {"text": chunk}
+                response = requests.post(url, headers=headers, json=payload)
+                if response.status_code == 201:
+                    print(f"Tweeted:\n{chunk}")
+                else:
+                    print(f"Error posting tweet: {response.status_code} - {response.text}")
         else:
             # Post a single tweet
-            api.update_status(tweet_content)
-            print(f"Tweeted:\n{tweet_content}")
+            payload = {"text": tweet_content}
+            response = requests.post(url, headers=headers, json=payload)
+            if response.status_code == 201:
+                print(f"Tweeted:\n{tweet_content}")
+            else:
+                print(f"Error posting tweet: {response.status_code} - {response.text}")
     except Exception as e:
         print(f"Error posting to Twitter: {e}")
 
 # Main function
 def main():
-    # Authenticate with Twitter
-    api = authenticate_twitter()
-    if api is None:
-        print("Twitter authentication failed. Exiting.")
-        return
-
     # Generate tweet content
     csv_file = "Twitter_stock_list.csv"
     tweet_lines = generate_tweet_content(csv_file)
 
     # Post to Twitter
     if tweet_lines:
-        post_to_twitter(api, tweet_lines)
+        post_to_twitter_v2(tweet_lines)
     else:
         print("No data to tweet.")
 
