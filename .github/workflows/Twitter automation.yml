@@ -1,4 +1,4 @@
-name: Daily Stock Tracker Bot
+name: Daily Stock Price Tracker Twitter Bot
 
 on:
   schedule:
