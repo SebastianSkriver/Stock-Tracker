@@ -1,4 +1,4 @@
-mastadon.py
+Mastodon.py
 yfinance
 python-dotenv
 pandas
