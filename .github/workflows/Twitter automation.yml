@@ -1,4 +1,4 @@
-name: Daily Stock Tracker Bot
+name: Twitter Bot
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
+          python-version: "3.9"
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -28,6 +28,9 @@ jobs:
       # Step 4: Run the bot
       - name: Run the stock tracker bot
         env:
-          TWITTER_BEARER: ${{ secrets.TWITTER_BEARER }}
+          TWITTER_API: ${{ secrets.TWITTER_API }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS: ${{ secrets.TWITTER_ACCESS }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: |
           python Twitter_stock_bot.py
