@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.x"
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -30,4 +30,4 @@ jobs:
         env:
           TWITTER_BEARER: ${{ secrets.TWITTER_BEARER }}
         run: |
-          python stock_tracker_bot.py
+          python Twitter_stock_bot.py
