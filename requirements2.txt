@@ -1,4 +1,4 @@
-requests 
+tweepy
 yfinance
 python-dotenv
 pandas
