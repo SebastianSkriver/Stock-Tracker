@@ -1,4 +1,4 @@
-tweepy
+mastadon.py
 yfinance
 python-dotenv
 pandas
