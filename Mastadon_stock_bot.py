@@ -67,7 +67,7 @@ def main():
     stock_symbols = []
     target_prices = {}
     try:
-        with open("Twitter_stock_list.csv", "r") as file:
+        with open("Daily_post_stock_list.csv", "r") as file:
             reader = csv.DictReader(file)
             print("CSV Headers:", reader.fieldnames)  # Debugging: Print the headers
             for row in reader:
