@@ -1,36 +1,29 @@
-name: Twitter Bot
+name: Mastodon Stock Bot
 
 on:
   schedule:
-    - cron: "0 9 * * *"  # Runs daily at 9:00 AM UTC
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "0 9 * * *"  # Runs every day at 9:00 AM UTC
+  workflow_dispatch:
 
 jobs:
-  tweet:
+  post_to_mastodon:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: |
-          pip install -r requirements2.txt
+    - name: Install dependencies
+      run: pip install -r requirements2.txt
 
-      # Step 4: Run the bot
-      - name: Run the stock tracker bot
-        env:
-          TWITTER_API: ${{ secrets.TWITTER_API }}
-          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
-          TWITTER_ACCESS: ${{ secrets.TWITTER_ACCESS }}
-          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
-        run: |
-          python Twitter_stock_bot.py
+    - name: Run Mastodon Stock Bot
+      env:
+        MASTADON_CLIENT_KEY: ${{ secrets.MASTADON_CLIENT_KEY }}
+        MASTADON_CLIENT_SECRET: ${{ secrets.MASTADON_CLIENT_SECRET }}
+        MASTADON_ACCESS_TOKEN: ${{ secrets.MASTADON_ACCESS_TOKEN }}
+      run: python Mastadon_stock_bot.py
