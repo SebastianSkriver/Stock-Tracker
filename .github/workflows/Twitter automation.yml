@@ -28,4 +28,4 @@ jobs:
           TWITTER_ACCESS: ${{ secrets.TWITTER_ACCESS }}
           TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: |
-          python stock_tracker_bot.py
+          python Twitter_stock_bot.py
