@@ -1,1 +1,4 @@
-tweepy yfinance python-dotenv pandas
+tweepy 
+yfinance
+python-dotenv
+pandas
