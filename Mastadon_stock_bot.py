@@ -67,7 +67,7 @@ def main():
     stock_symbols = []
     target_prices = {}
     try:
-        with open("Daily_Post_stock_list.csv", "r") as file:
+        with open("Daily_post_stock_list.csv", "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 symbol = row["Symbol"]
