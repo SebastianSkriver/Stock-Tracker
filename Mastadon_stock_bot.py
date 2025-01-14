@@ -67,14 +67,16 @@ def main():
     stock_symbols = []
     target_prices = {}
     try:
-        with open("Daily_post_stock_list.csv", "r") as file:
+        with open("Twitter_stock_list.csv", "r") as file:
             reader = csv.DictReader(file)
+            print("CSV Headers:", reader.fieldnames)  # Debugging: Print the headers
             for row in reader:
+                print("Row:", row)  # Debugging: Print each row
                 symbol = row["Symbol"]
                 stock_symbols.append(symbol)
                 target_prices[symbol] = {
-                    "buy": float(row["Target Buy"]) if row["Target Buy"] else None,
-                    "sell": float(row["Target Sell"]) if row["Target Sell"] else None,
+                    "buy": float(row["Buy_Target"]) if row["Buy_Target"] else None,
+                    "sell": float(row["Sell_Target"]) if row["Sell_Target"] else None,
                 }
     except FileNotFoundError:
         print("Error: CSV file not found.")
