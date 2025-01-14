@@ -25,17 +25,18 @@ def analyze_stocks(stock_data, target_prices):
     recommendations = []
     for symbol, current_price in stock_data.items():
         if current_price is None:
-            recommendations.append(f"{symbol}: No data available")
+            recommendations.append(f"{symbol} | No data available | N/A")
             continue
         target_buy = target_prices.get(symbol, {}).get("buy")
         target_sell = target_prices.get(symbol, {}).get("sell")
         if target_buy and current_price <= target_buy:
-            recommendations.append(f"{symbol}: Buy (Current: ${current_price:.2f}, Target: ${target_buy:.2f})")
+            recommendations.append(f"{symbol} | ${current_price:.2f} | Buy")
         elif target_sell and current_price >= target_sell:
-            recommendations.append(f"{symbol}: Sell (Current: ${current_price:.2f}, Target: ${target_sell:.2f})")
+            recommendations.append(f"{symbol} | ${current_price:.2f} | Sell")
         else:
-            recommendations.append(f"{symbol}: Wait (Current: ${current_price:.2f})")
+            recommendations.append(f"{symbol} | ${current_price:.2f} | Wait")
     return recommendations
+
 
 # Function to post updates to Mastodon
 def post_to_mastodon(recommendations):
