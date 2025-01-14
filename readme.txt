@@ -1,5 +1,5 @@
 What is this repository?
-Automation of stock tracking. Price updates, sell/buy alerts, Social media post autimation
+Automation of stock tracking. Price updates, sell/buy alerts, Social media post automation
 
 Script 1: Stock_tracker_alerts.py
 - Automated bi-daily script that sends email notifications when specific price targets are reached.
