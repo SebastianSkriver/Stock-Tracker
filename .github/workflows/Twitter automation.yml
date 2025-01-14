@@ -1,0 +1,31 @@
+name: Daily Stock Tracker Bot
+
+on:
+  schedule:
+    - cron: "0 9 * * *"  # Runs daily at 9:00 AM UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements2.txt
+
+      - name: Run the bot
+        env:
+          TWITTER_API: ${{ secrets.TWITTER_API }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS: ${{ secrets.TWITTER_ACCESS }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        run: |
+          python stock_tracker_bot.py
