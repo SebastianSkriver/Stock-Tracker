@@ -1,4 +1,4 @@
-name: Daily Stock Price Tracker Twitter Bot
+name: Daily Stock Tracker Bot
 
 on:
   schedule:
@@ -8,24 +8,26 @@ on:
 jobs:
   tweet:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           pip install -r requirements2.txt
 
-      - name: Run the bot
+      # Step 4: Run the bot
+      - name: Run the stock tracker bot
         env:
-          TWITTER_API: ${{ secrets.TWITTER_API }}
-          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
-          TWITTER_ACCESS: ${{ secrets.TWITTER_ACCESS }}
-          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+          TWITTER_BEARER: ${{ secrets.TWITTER_BEARER }}
         run: |
-          python Twitter_stock_bot.py
+          python stock_tracker_bot.py
