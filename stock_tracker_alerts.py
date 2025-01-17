@@ -10,8 +10,8 @@ def get_stock_price(symbol):
 
 # Function to send an email notification
 def send_email(subject, body, to_email):
-    from_email = "Stock.Tracker.Python@gmail.com"  # Replace with your email
-    password = "bdib awge zrjw dhnn"               # Replace with your email password
+    from_email = "os.getenv("EMAIL")"  # Replace with your email
+    password = "os.getenv("EMAIL_PASSWORD")"               # Replace with your email password
 
     msg = MIMEText(body)
     msg['Subject'] = subject
@@ -51,7 +51,7 @@ def check_stocks():
             if condition == "buy" and current_price <= target_price:
                 subject = f"Stock Alert: {symbol} is at or below your buy target!"
                 body = f"The current price of {symbol} is {current_price}, which is at or below your target price of {target_price}."
-                send_email(subject, body, "bomskriver@gmail.com")  # Replace with recipient email
+                send_email(subject, body, "stock.tracker.python@gmail.com")  # Replace with recipient email
 
             elif condition == "sell" and current_price >= target_price:
                 subject = f"Stock Alert: {symbol} is at or above your sell target!"
