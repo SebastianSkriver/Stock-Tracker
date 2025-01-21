@@ -1,3 +1,4 @@
+import os
 import yfinance as yf
 import smtplib
 from email.mime.text import MIMEText
@@ -9,15 +10,25 @@ def get_stock_price(symbol):
     return stock.history(period="1d")['Close'].iloc[-1]
 
 # Function to send an email notification
-def send_email(subject, body, to_email):
-    from_email = "os.getenv("EMAIL")"  # Replace with your email
-    password = "os.getenv("EMAIL_PASSWORD")"               # Replace with your email password
+def send_email(subject, body):
+    # Fetch email credentials from environment variables
+    from_email = os.getenv("EMAIL")  # Your email address
+    password = os.getenv("EMAIL_PASSWORD")  # Your email password
 
+    # Check if environment variables are set
+    if not from_email or not password:
+        raise ValueError("EMAIL and EMAIL_PASSWORD environment variables must be set.")
+
+    # Set the recipient email
+    to_email = os.getenv("EMAIL")
+
+    # Create the email message
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = from_email
     msg['To'] = to_email
 
+    # Send the email
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
@@ -51,15 +62,16 @@ def check_stocks():
             if condition == "buy" and current_price <= target_price:
                 subject = f"Stock Alert: {symbol} is at or below your buy target!"
                 body = f"The current price of {symbol} is {current_price}, which is at or below your target price of {target_price}."
-                send_email(subject, body, "stock.tracker.python@gmail.com")  # Replace with recipient email
+                send_email(subject, body)
 
             elif condition == "sell" and current_price >= target_price:
                 subject = f"Stock Alert: {symbol} is at or above your sell target!"
                 body = f"The current price of {symbol} is {current_price}, which is at or above your target price of {target_price}."
-                send_email(subject, body, "stock.tracker.python@gmail.com")  # Replace with recipient email
+                send_email(subject, body)
 
         except Exception as e:
             print(f"Error processing stock {symbol}: {e}")
 
 # Run the stock check function
-check_stocks()
+if __name__ == "__main__":
+    check_stocks()
